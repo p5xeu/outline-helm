@@ -1,0 +1,41 @@
+{{ if .Values.postgres.createDb }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgresql
+spec:
+  accessModes:
+    - "{{ .Values.postgres.pvc.accessModes }}"
+  storageClassName: "{{ .Values.postgres.pvc.storageClassName }}"
+  resources:
+    requests:
+      storage: "{{ .Values.postgres.pvc.storage }}"
+{{ end }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: outline
+spec:
+  accessModes:
+    - "{{ .Values.outline.pvc.accessModes }}"
+  storageClassName: "{{ .Values.outline.pvc.storageClassName }}"
+  resources:
+    requests:
+      storage: "{{ .Values.outline.pvc.storage }}"
+{{ if .Values.redis.createDb }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: redis
+spec:
+  accessModes:
+    - "{{ .Values.redis.pvc.accessModes }}"
+  storageClassName: "{{ .Values.redis.pvc.storageClassName }}"
+  resources:
+    requests:
+      storage: "{{ .Values.redis.pvc.storage }}"
+...
+{{ end }}

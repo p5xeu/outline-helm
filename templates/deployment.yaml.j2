@@ -1,0 +1,162 @@
+{{ if .Values.postgres.createDb }}
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    app.kubernetes.io/name: postgresql
+    app: postgresql
+  name: postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels: 
+        app: postgresql
+    spec:
+      volumes:
+        - name: "postgresql-data"
+          persistentVolumeClaim:
+            claimName: "postgresql"
+      containers:
+        - image: "{{ .Values.postgres.imageRepo }}:{{ .Values.postgres.dbVersion }}"
+          name: postgresql
+          livenessProbe:
+            exec:
+              command:
+                - "/usr/libexec/check-container"
+                - "--live"
+            initialDelaySeconds: 120
+            timeoutSeconds: 10
+          ports:
+            - containerPort: 5432
+            
+              protocol: TCP
+          resources:
+            limits:
+              cpu: "{{ .Values.postgres.resources.cpu }}"
+              memory: "{{ .Values.postgres.resources.memory }}"
+          envFrom:
+            - secretRef:
+                name: postgresql
+          imagePullPolicy: IfNotPresent
+          terminationMessagePath: "/dev/termination-log"
+          volumeMounts:
+            - name: postgresql-data
+              mountPath: /var/lib/pgsql/data
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+  strategy:
+    type: Recreate
+{{ end }}
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    app.kubernetes.io/name: outline
+    app: outline
+  name: outline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: outline
+  template:
+    metadata:
+      labels: 
+        app: outline
+        deploymentconfig: outline
+    spec:
+      volumes:
+        - name: "outline-data"
+          persistentVolumeClaim:
+            claimName: "outline"
+      containers:
+        - image: "{{ .Values.outline.imageRepo }}:{{ .Values.outline.version }}"
+          name: outline
+          livenessProbe:
+            httpGet:
+              path: /_health
+              port: http
+            initialDelaySeconds: 5
+            failureThreshold: 24
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /_health
+              port: http
+            initialDelaySeconds: 5
+            failureThreshold: 2
+            periodSeconds: 10
+          ports:
+            - name: http
+              containerPort: {{ .Values.outline.servicePort }}
+          resources:
+            limits:
+              cpu: "{{ .Values.outline.resources.cpu }}"
+              memory: "{{ .Values.outline.resources.memory }}"
+          envFrom:
+            - secretRef:
+                name: outline
+            - configMapRef:
+                name: outline
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: outline-data
+              mountPath: /var/lib/outline/data
+      restartPolicy: Always
+  strategy:
+    type: Recreate
+
+{{ if .Values.redis.createDb }}
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: redis
+    spec:
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis
+      containers:
+        - name: container
+          image: "{{ .Values.redis.image }}:{{ .Values.redis.version }}"
+          ports:
+            - containerPort: 6379
+              protocol: TCP
+          resources:
+            limits:
+              cpu: "{{ .Values.redis.resources.cpu }}"
+              memory: "{{ .Values.redis.resources.memory }}"
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+  strategy:
+    type: Recreate
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+...
+{{ end }}

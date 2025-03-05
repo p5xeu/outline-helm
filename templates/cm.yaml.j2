@@ -1,0 +1,17 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: outline
+data:
+  OIDC_AUTH_URI: "{{ .Values.oidc.auth_uri }}"
+  OIDC_TOKEN_URI: "{{ .Values.oidc.token_uri }}"
+  OIDC_USERINFO_URI: "{{ .Values.oidc.userinfo_uri }}"
+  OIDC_LOGOUT_URI: "{{ .Values.oidc.logout_uri }}"
+  OIDC_USERNAME_CLAIM: "{{ .Values.oidc.username_claim }}"
+  OIDC_DISPLAY_NAME: "{{ .Values.oidc.display_name }}"
+  OIDC_SCOPES: "{{ .Values.oidc.scopes }}"
+  PGSSLMODE: "{{ .Values.outline.pgsslMode }}"
+  FILE_STORAGE: local
+  FILE_STORAGE_LOCAL_ROOT_DIR: /var/lib/outline/data
+...

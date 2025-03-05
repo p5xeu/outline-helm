@@ -1,0 +1,48 @@
+{{ if .Values.postgres.createDb }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.postgres.hostname }}"
+spec:
+  ports:
+  - name: postgresql
+    nodePort: 0
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: postgresql
+{{ end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: outline
+spec:
+  ports:
+    - name: outline
+      nodePort: 0
+      port: 80
+      protocol: TCP
+      targetPort: {{ .Values.outline.servicePort }}
+  selector: 
+    app: outline
+
+{{ if .Values.redis.createDb }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.redis.hostname }}"
+spec:
+  ports:
+  - name: redis
+    nodePort: 0
+    port: 6379
+    protocol: TCP
+    targetPort: 6379
+  selector:
+    app: redis
+...
+{{ end }}
