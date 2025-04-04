@@ -144,7 +144,6 @@ spec:
             limits:
               cpu: "{{ .Values.redis.resources.cpu }}"
               memory: "{{ .Values.redis.resources.memory }}"
-          resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: Always
