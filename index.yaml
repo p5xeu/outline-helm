@@ -1,7 +1,0 @@
-apiVersion: v1
-entries:
-  mychart:
-    - name: outline
-      version: 1.0.0
-      appVersion: 0.87.0
-      description: A Helm chart for the deployment of outline
