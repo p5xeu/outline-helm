@@ -1,0 +1,11 @@
+- name: Chart | Push
+  uses: appany/helm-oci-chart-releaser@v0.3.0
+  with:
+    name: outline
+    repository: p5x-eu/charts
+    tag: 0.1.0
+    path: ./ # Default charts/{name}
+    registry: ghcr.io
+    registry_username: ${{ secrets.REGISTRY_USERNAME }}
+    registry_password: ${{ secrets.REGISTRY_PASSWORD }}
+    update_dependencies: 'true' # Defaults to false
