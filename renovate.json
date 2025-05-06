@@ -30,7 +30,7 @@
                 "appVersion: '(?<currentValue>.*?)'\\s+"
             ],
             "depNameTemplate": "outline/outline",
-            "datasourceTemplate": "docker"
+            "datasourceTemplate": "github-releases"
         }
     ],
     "extends": [
