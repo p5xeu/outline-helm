@@ -39,7 +39,7 @@ jobs:
         shell: bash
         run: echo "${GITHUB_TOKEN}" | helm registry login ${REGISTRY} --username ${GITHUB_ACTOR} --password-stdin
         env:
-          REGISTRY: "ghcr.io
+          REGISTRY: "ghcr.io"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push Helm Charts to Github Container Registry (OCI)
