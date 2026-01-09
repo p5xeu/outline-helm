@@ -45,10 +45,11 @@ jobs:
       - name: Push Helm Charts to Github Container Registry (OCI)
         shell: bash
         working-directory: dist
+        env:
+          REGISTRY: "ghcr.io/${{ github.repository }}"
         run: |
           for f in *.tgz ; do
               echo "$f"
               helm push $f oci://${REGISTRY,,}
           done
-        env:
-          REGISTRY: "ghcr.io/${{ github.repository }}"
+
