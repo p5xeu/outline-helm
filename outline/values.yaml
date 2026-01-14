@@ -3,99 +3,99 @@
 extUrl: "outline.yourdomain.com"
 
 postgres:
-  # createDb can be set to true if you need a new postgres database, you need one if you don't have one already
+  # postgres.createDb can be set to true if you need a new postgres database, you need one if you don't have one already
   createDb: true
-  # postgresql is the name of the PostgresQL host, standard is postgresql
+  # postgres.hostname is the name of the PostgresQL host, default is postgresql
   hostname: "postgresql"
-  # database is the name of the PostgresQL database
+  # postgres.database is the name of the PostgresQL database
   database: "outline"
-  # user is the username of the PostgresQL user
+  # postgres.user is the username of the PostgresQL user
   user: "outline"
-  # password is the oassword for Postgresql
+  # postgres.password is the password for Postgresql
   password: "change-me"
-  # imageRepo is the location where to pull the desired postgresql image from 
+  # postgres.imageRepo is the location where to pull the desired postgresql image from
   imageRepo: "registry.redhat.io/rhel9/postgresql-15"
-  # dbVersion is the desired PostgresQL Version, latest is only recommended for testing
+  # postgres.dbVersion is the desired PostgresQL Version, latest is only recommended for testing
   dbVersion: "latest"
   resources:
-    # cpu ist he maximum CPU usage of PostgresQL deployment, it cant exceed the given CPU usage
+    # postgres.resources.cpu ist the maximum CPU usage of PostgresQL deployment, it can't exceed the given CPU usage
     cpu: "500m"
-    # memory is the maximum RAM memory usage of PostgresQL deployment, if it exceeds the max, it will kill the deployment
+    # postgres.resources.memory is the maximum RAM memory usage of PostgresQL deployment, if it exceeds the value the pod will be OOM killed
     memory: "512Mi"
   pvc:
-    # storage is the amount of GiB the persistent volume claim can use
+    # postgres.pvc.storage is the amount of GiB the persistent volume claim can use
     storage: "10Gi"
-    # storageClassName is the name of the storageClass of the pvc
+    # postgres.pvc.storageClassName is the name of the storageClass of the pvc
     storageClassName: "thin-csi"
-    # accessModes is the access mode of the PVC
+    # postgres.pvc.accessModes is the access mode of the PVC
     accessModes: "ReadWriteOnce"
 
 redis:
-  # createDb is the value to set to true if you want to deploy a redis instance for outline
+  # redis.createDb is the value to set to true if you want to deploy a redis instance for outline
   createDb: true
-  # hostname is the name of the redis host, standard is redis
+  # redis.hostname is the name of the redis host, default is redis
   hostname: "redis"
-  # image is the name of the redis image
+  # redis.image is the name of the redis image
   image: "redis"
-  # version is the desired version of redis, latest is only recommended for testing
+  # redis.version is the desired version of redis, latest is only recommended for testing
   version: "latest"
   resources:
-    # cpu ist he maximum CPU usage of PostgresQL deployment, it cant exceed the given CPU usage
+    # redis.resources.cpu ist the maximum CPU usage of PostgresQL deployment, it can't exceed the given CPU usage
     cpu: "500m"
-    # memory is the maximum RAM memory usage of PostgresQL deployment, if it exceeds the max, it will kill the deployment
+    # memory is the maximum RAM memory usage of PostgresQL deployment, if it exceeds the value the pod will be OOM killed
     memory: "512Mi"
   pvc:
-    # storage is the amount of GiB the persistent volume claim can use
+    # redis.pvc.storage is the amount of GiB the persistent volume claim can use
     storage: "10Gi"
-    # storageClassName is the name of the storageClass of the pvc
+    # redis.pvc.storageClassName is the name of the storageClass of the pvc
     storageClassName: "thin-csi"
-    # accessModes is the access mode of the PVC
+    # redis.pvc.accessModes is the access mode of the PVC
     accessModes: "ReadWriteOnce"
 
 cert:
-  # requestCertificate can be set to true, if you have cert-manager installed and want to create certificates
+  # cert.requestCertificate can be set to true, if you have cert-manager installed and want to create certificates
   requestCertificate: true
-  # kind describes the kind of cert-manager issuer you use, Issuer or ClusterIssuer 
+  # cert.kind describes the kind of cert-manager issuer you use, Issuer or ClusterIssuer
   kind: "ClusterIssuer"
-  # name is the name of the issuer
+  # cert.name is the name of the issuer
   name: ""
-  # secretName ist the name of the secret for the certificate | standard is acme-cert-outline
+  # cert.secretName ist the name of the secret for the certificate, default is acme-cert-outline
   secretName: "acme-cert-outline"
 
 ingress:
   # If ingress is true, route has to be false
-  # createIngress has to be set to true, if you want to create an ingress
+  # ingress.createIngress has to be set to true, if you want to create an ingress
   createIngress: false
-  # secretName is the name of the secret for the ingress | standard is acme-cert-outline
+  # ingress.secretName is the name of the secret for the ingress, default is acme-cert-outline
   secretName: acme-cert-outline
 
 # createRoute has to be set to true if you want to create a route
 createRoute: true
 
 outline:
-  # version is the desired outline version, latest is only recommended for testing
+  # outline.version is the desired outline version, latest is only recommended for testing
   version: "latest"
-  # imageRepo is the image repository to pull from
+  # outline.imageRepo is the image repository to pull from
   imageRepo: "outlinewiki/outline"
-  # servicePort describes the port that will be for outline
+  # outline.servicePort describes the port that will be used for outline
   servicePort: 3000
-  # secretKey is needed for outline, to generate a new safe one use openssl rand -hex 32
+  # outline.secretKey is needed for outline, to generate a new safe one use openssl rand -hex 32
   secretKey: ""
-    # utilsSecret is needed for outline, to generate a new safe one use openssl rand -hex 32
+    # outline.utilsSecret is needed for outline, to generate a new safe one use openssl rand -hex 32
   utilsSecret: ""
   resources:
-    # cpu ist he maximum CPU usage of PostgresQL deployment, it cant exceed the given CPU usage
+    # outline.resources.cpu ist the maximum CPU usage of PostgresQL deployment, it can't exceed the given CPU usage
     cpu: "500m"
-    # memory is the maximum RAM memory usage of PostgresQL deployment, if it exceeds the max, it will kill the deployment
+    # outline.resources.memory is the maximum RAM memory usage of PostgresQL deployment, if it exceeds the value the pod will be OOM killed
     memory: "512Mi"
   pvc:
-    # storage is the amount of GiB the persistent volume claim can use
+    # outline.pvc.storage is the amount of GiB the persistent volume claim can use
     storage: "10Gi"
-    # storageClassName is the name of the storageClass of the pvc
+    # outline.pvc.storageClassName is the name of the storageClass of the pvc
     storageClassName: "thin-csi"
-    # accessModes is the access mode of the PVC
+    # outline.pvc.accessModes is the access mode of the PVC
     accessModes: "ReadWriteOnce"
-  # pgsslMode determines wheter or with what priority a secure SSL TCP/IP connection will be selected. See: https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNECT-SSLMODE
+  # outline.pgsslMode determines whether or with what priority a secure SSL TCP/IP connection will be selected. See: https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNECT-SSLMODE
   pgsslMode: "disable"
 
 # OIDC values from e.g. GitLab or Authentik
@@ -107,7 +107,7 @@ oidc:
   display_name: ""
   client_id: ""
   client_secret: ""
-  # scopes depend on your OIDC provider. Git only needs "openid email" and authentik needs "openid profile email"
+  # oidc.scopes depend on your OIDC provider. Git only needs "openid email" and authentik needs "openid profile email"
   scopes: ""
 
 # extraManifests are additional optional manifests to deploy as an array
