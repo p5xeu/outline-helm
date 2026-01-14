@@ -85,9 +85,9 @@ outline:
   utilsSecret: ""
   resources:
     # outline.resources.cpu ist the maximum CPU usage of PostgresQL deployment, it can't exceed the given CPU usage
-    cpu: "500m"
+    cpu: "1000m"
     # outline.resources.memory is the maximum RAM memory usage of PostgresQL deployment, if it exceeds the value the pod will be OOM killed
-    memory: "512Mi"
+    memory: "4096Mi"
   pvc:
     # outline.pvc.storage is the amount of GiB the persistent volume claim can use
     storage: "10Gi"
