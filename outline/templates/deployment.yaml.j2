@@ -14,7 +14,7 @@ spec:
       app: postgresql
   template:
     metadata:
-      labels: 
+      labels:
         app: postgresql
     spec:
       volumes:
@@ -33,7 +33,7 @@ spec:
             timeoutSeconds: 10
           ports:
             - containerPort: 5432
-            
+
               protocol: TCP
           resources:
             limits:
@@ -68,7 +68,7 @@ spec:
       app: outline
   template:
     metadata:
-      labels: 
+      labels:
         app: outline
         deploymentconfig: outline
     spec:
@@ -105,6 +105,8 @@ spec:
                 name: outline
             - configMapRef:
                 name: outline
+            - secretRef:
+                name: outline-smtp-secret
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: outline-data
