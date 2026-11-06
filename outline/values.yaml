@@ -97,6 +97,8 @@ outline:
     accessModes: "ReadWriteOnce"
   # outline.pgsslMode determines whether or with what priority a secure SSL TCP/IP connection will be selected. See: https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNECT-SSLMODE
   pgsslMode: "disable"
+  # outline.maxUploadSize is the value for FILE_STORAGE_UPLOAD_MAX_SIZE which sets, how big files uploaded to docs can be
+  maxUploadSize: "26214400"
 
 # OIDC values from e.g. GitLab or Authentik
 oidc:
